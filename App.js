@@ -4,69 +4,20 @@ import {StyleSheet, Text, View , Button, Image, requireNativeComponent, Pressabl
 import{ Audio} from 'expo-av'
 import * as React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
-// import speaks from './Capture.png'
+import speaks from './Capture.png'
 // import { Icon } from 'react-native-vector-icons/Icon';
-// import DeleteIcon from '@shapla/react-delete-icon'
-// import Wave from 'react-native-waveview';
-//  npm i react-native-cli
-// import hark from 'hark';
-// import {db} from './firebase';
-// import {storage} from './firebase';
-// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-// import { addDoc, collection } from 'firebase/firestore';
 
 
 
 
 export default function App() {
-  //https://www.youtube.com/watch?v=70K6QL0lYRQ
+ 
 
 const [recording, setRecording]= React.useState();
 const [recordings, setRecordings]= React.useState([]);
 const [message, setMessage]= React.useState("");
 
-/////////////////////////////////
-const [time, setTime]=React.useState(0);
-const [startTimer, setStartTimer]=React.useState(false)
 
-React.useEffect(()=>{
-  let intervalid=null;
-  if(startTimer){
-    intervalid=setInterval(()=>{
-      setTime(prev => prev += 1);
-
-    }, 1000)
-
-  }else{
-    clearInterval(intervalid)
-  }
- 
-},[startTimer])
-//
-//timer
-const [sec, setSeconds]=React.useState(0);
-const [mins,setMinutes]=React.useState(0);
-
-var timer
-React.useEffect(()=>{
-  timer=setInterval(() => {
-    setSeconds(sec+1);
-    if (sec === 59){
-      setMinutes(mins+1)
-      setSeconds(0);
-    }
-    
-  }, 1000);
-  return  () => clearInterval(timer);
-
-},)
-
-
-//
-// var speech = hark(stream, options);
-// speech.on('speaking', function() {
-//   console.log('Speaking!');
-// });
 
 async function startRecording() {
     try{
@@ -89,9 +40,7 @@ async function startRecording() {
         console.error('failed to start recording', err)
     }
 
-    // 
-    setSeconds(0);
-    setMinutes(0);
+  
   
   
 }
@@ -111,27 +60,7 @@ async function stopRecording(){
         file: recording.getURI()
     });
     setRecordings(updateRecordings); 
-     clearInterval(timer)
-
-     //adding audio to firebase
-     let storageRef = firebase.storage().ref();
-     let metadata = {
-       contentType: 'audio/mp3',
-     };
-     let filePath = `${this.file.externalDataDirectory}` + `${this.fileName}`;
-     this.file.readAsDataURL(this.file.externalDataDirectory, this.fileName).then((file) => {
-       let voiceRef = storageRef.child(`voices/${this.fileName}`).putString(file, firebase.storage.StringFormat.DATA_URL);
-       voiceRef.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
-         console.log("uploading");
-       }, (e) => {
-         reject(e);
-         console.log(JSON.stringify(e, null, 2));
-       }, () => {
-         var downloadURL = voiceRef.snapshot.downloadURL;
-         resolve(downloadURL);
-       });
-     });
-     //
+  
     
 }
 
@@ -164,7 +93,7 @@ function getRecordingLines(){
       <View style={styles.picture}>
         <Image
           style={{width: 180, height: 180, borderRadius:'50%', marginTop:'-50%'}}
-          source={""}
+          source={speaks}
         
         />
         {/* <Image
@@ -173,11 +102,7 @@ function getRecordingLines(){
             source={"https://th.bing.com/th/id/R.d37b6d142b1bde0b0816e13a344dfc29?rik=%2f0mYYyODmIfGZA&pid=ImgRaw&r=0"}
         /> */}
       </View>
-       <View>
-        <Text style={{fontSize:'30px'}}>{mins<10? "0"+mins:mins}:{sec<10? "0"+sec:sec}</Text>
-        <Text>{time}</Text>
-        {/* <Icon name="delete" size={30} color="red"/> */}
-        </View> 
+    
       <Text style={{}}>{message}</Text>
 
         <Pressable onPress={recording ? stopRecording : startRecording}>
@@ -193,45 +118,7 @@ function getRecordingLines(){
           {getRecordingLines()}
 
         </Pressable>
-        <View>
-        <Button onPress={()=> setStartTimer(true)} title='start'></Button>
-        <Button onPress={()=> setStartTimer(false)} title='stop'></Button>
-        </View>
-      
-      
-      {/* <Button
-       color='#4d9a9c'    
-        style={{width:'100px'}}
-         title={recording ? 'Stop recording' : 'Start recording'} 
-         onPress={recording? stopRecording : startRecording}
-         
-         />
-           {getRecordingLines()} */}
-
-
-           {/* <WaveView
-     height={50}
-     width={wp('80%')}
-     waveColor={'#0ff'}
-     waveSpeed={'slow'}
-     waveAmplitude={20}
-     noOfWaves={70}
-     wavePosition={'both'}
-     style={{ alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}
-    /> */}
-       
-      {/* <LinearGradient
-         // Button Linear Gradient
-      
-         style={styles.button1}
-      >
-         <Button
-         title={recording ? 'Stop recording' : 'Start recording' }
-         onPress={recording? stopRecording : startRecording}
-         />
-          {getRecordingLines()}
-
-      </LinearGradient> */}
+  
       
      
     </View>
@@ -259,6 +146,7 @@ const styles = StyleSheet.create({
   },
   picture:{
     marginTop: '-70%',
+    marginBottom:30
   },
   row:{
     flexDirection:'row',
@@ -281,6 +169,7 @@ const styles = StyleSheet.create({
     height:50,
     borderRadius: 20,
     
+    
     // borderBottomLeftRadius:15
   
     
@@ -294,84 +183,6 @@ const styles = StyleSheet.create({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { StyleSheet, Text, View , Button } from 'react-native';
-// import{ Audio} from 'expo-av'
-// import * as React from 'react'
-
-// export default function App() {
-//   //https://www.youtube.com/watch?v=70K6QL0lYRQ
-
-// const [recording, setRecording]= React.useState();
-// //
-// const [message, setMessage]= React.useState();
-
-// async function startRecording() {
-//   try{
-//     console.log('Requesting Submission...');
-//     await Audio.requestPermissionsAsync();
-//     await Audio.setAudioModeAsync({
-//       allowsRecordingIOS: true,
-//       playsInSilentModeIOS: true,
-
-//     });
-//     console.log('Start recording...')
-//     const recording= new Audio.Recording();
-//     await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY)
-//     await recording.startAsync();
-//     setRecording(recording);
-//     console.log('recording Started')
-//   }catch (err){
-//     console.error('failed to start recording', err)
-//   }
-// }
-
-// async function stopRecording(){
-//   console.log('Stopping recording...');
-//   setRecording(undefined);
-//   await recording.stopAndUnloadAsync();
-//   const uri=recording.getURI();
-//   console.log('Recording stopped and stored at', uri);
-
-
   
-// }
 
-//   return (
-//     <View style={styles.container}>
-//       <Text>{message}</Text>
-//       <Button
-//          title={recording ? 'Stop recording' : 'Start recording' }
-//          onPress={recording? stopRecording : startRecording}
-//       />
-  
-//     </View>
-//   );
-// }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
