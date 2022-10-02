@@ -4,7 +4,7 @@ import {StyleSheet, Text, View , Button, Image, requireNativeComponent, Pressabl
 import{ Audio} from 'expo-av'
 import * as React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
-import speaks from './Capture.png'
+import speaks from './assets/images.png'
 // import { Icon } from 'react-native-vector-icons/Icon';
 
 
