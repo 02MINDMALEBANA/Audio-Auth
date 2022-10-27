@@ -5,12 +5,17 @@ import{ Audio} from 'expo-av'
 import * as React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import speaks from './assets/images.png'
+import { NavigationContainer } from '@react-navigation/native';
+import {createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from './login';
+import Signup from './signup';
+import ForgotPassword from './forgotPassword';
 // import { Icon } from 'react-native-vector-icons/Icon';
 
 
 
 
-export default function App() {
+ function Apps() {
  
 
 const [recording, setRecording]= React.useState();
@@ -125,6 +130,23 @@ function getRecordingLines(){
     </LinearGradient>
     
   );
+}
+const Stack = createNativeStackNavigator();
+export default function App(){
+  return(
+    <NavigationContainer>
+    <Stack.Navigator initialRouteName='signup' screenOptions={{
+      headerShown: false,
+    }}>
+      <Stack.Screen name="signup" component={Signup}/>
+      <Stack.Screen name="login" component={Login}/>
+      <Stack.Screen name="welcome" component={Apps} />
+      <Stack.Screen name="forgotPassword" component={ForgotPassword} />
+    
+
+    </Stack.Navigator>
+  </NavigationContainer>
+  )
 }
 
 const styles = StyleSheet.create({
